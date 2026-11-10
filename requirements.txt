@@ -1,3 +1,0 @@
-Pillow>=10
-# optional: a few bytes more room when squeezing the patched QML into its slot
-# zopfli>=0.2
