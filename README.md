@@ -67,7 +67,7 @@ Para instalar el mod en tu pedalera, existen 2 vias de sin necesidad de compilar
 5. Realizar lo mismo que la instalación rapida
 
 ---
-## Funciones experimentales (Usar bajo precaución propia)
+## Funciones experimentales (Usar bajo precaución)
 _Estas funciones todavía se encuentran en fase de prueba y solo son accesibles mediante `Forge Patcher`, su uso de momento es estrictamente de testeo para integrarlos en actualizaciones futuras y no representan el resultado final de la integración_
 
 - **NAM EXTENDED**: Modificación de los hilos del modulo NAM y la logica de lectura para mejorar la carga de los archivos y reducir los artefeactos
