@@ -1,95 +1,95 @@
-# HeadRush MX5 Forge
+# HeadRush MX5 — Forge Patch Mod
+_Antiguamente Compatibility Layer_
 
-Build a patched **HeadRush MX5 (firmware 2.7)** updater on your own computer:
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Platform: HeadRush](https://img.shields.io/badge/MX5-red?label=HEADRUSH)]((#))
+[![NAM Core](https://img.shields.io/badge/Engine-Neural%20Amp%20Modeler-green.svg)](https://github.com/sdatkinson/NeuralAmpModelerCore)
+[![Release: v2.7 Extended](https://img.shields.io/badge/Release-v0.9.2%20Galvanized-success.svg)](https://github.com/iosumurillo/GIGBOARD_NAM_AMP_PNG/releases/tag/v2.7-nam-extended)
 
-* downloads the official updater from inMusic (or uses a file you already have),
-* applies the **NAM mod** (Neural Amp Modeler on the Anxiety OD pedal) with **2 or 4 instances**,
-* adds the **MX5 Bridge** (USB-MIDI bridge used by [MX-Edit](https://github.com/)),
-* optionally applies the **pedal design** (NAM pedal art + pedal pictures in the signal chain) (with 2 instances Anxiety OD V2 keeps its original art; with 4 it gets the NAM badge),
-* writes a ready-to-run `FirmwareUpdater` folder.
+Capa de compatibilidad entre modificaciones avanzadas de firmware para **HeadRush MX5** (con posible ramificación a Pedalboard) en la version de **Firmware 2.7**, que integra de forma nativa la inferencia de redes neuronales [Neural Amp Modeler (NAM)](https://github.com/sdatkinson/NeuralAmpModelerCore) directamente en el motor de audio en tiempo real (`/usr/Evil/Evil`). 
 
-> Unofficial. Flashing modified firmware can brick your device. Recovery: hold footswitches 1 + 2 while powering on and flash the official updater. You do it at your own risk.
+Junto a lo anterior, se añade accesibilidad MIDI avanzada via usb para poder manejar el equipo desde Windows o Mac mediante [MX5-BRIDGE y MX-EDIT](https://github.com/TicT4x/MX-Edit).
 
-## Modes
+Asi también, se integra un mod para mostrar el arte de los pedales directo en el editor de pantalla como fue mostrado en el material promocional basado en el repositorio de [GIGBOARD_NAM_PNG](https://github.com/iosumurillo/GIGBOARD_NAM_AMP_PNG) y optimizado con mejoras propias para no impactar en el rendimiento.
 
-| | 2 instances | 4 instances |
-|---|---|---|
-| Anxiety OD | NAM pedal | NAM pedal |
-| Anxiety OD V2 | untouched | NAM pedal (loses its original sound) |
-| Pedal pictures | optional **pedal design** (V2 keeps its original art) | optional **pedal design** (V2 gets the NAM badge) |
-| MX5 Bridge | optional | optional |
+### ¿Cómo descargar el parche? (Releases)
 
-The pedal design works with both builds. With 2 instances only Anxiety OD gets the NAM art and Anxiety OD V2 keeps its original picture; with 4 instances V2 gets the NAM badge too.
+Para instalar el mod en tu pedalera, existen 2 vias de sin necesidad de compilar código fuente:
 
-## NAM engines and the NAM amp (0.2.0)
+| Archivo | Descripción | Descarga Directa |
+| :--- | :--- | :--- |
+| **Firmware Updater (NAM A2 + BRIDGE + ARTMOD)** | Flasheador automático para HeadRush MX5 ya parchado con soporte Dual NAM + MX-EDIT + ARTMOD | [Descargar .RAR]
+| **Forge Patcher** | Constructor de update.img para parchar modularmente la instalación y elegir que componentes integrar | [Descargar .exe] |
 
-* `--engine nam-mod` (default): the nam-mod 0.1.6 libraries, the ones proven on an MX5.
-* `--engine extended`: the NAM Extended libraries. The inference code is the same; the differences are gentler background threads
-  (`SCHED_IDLE`, small sleeps while a model is built / warmed up) to avoid glitches when loading or switching a model.
-  Not tested on an MX5. On a single-core device the background loading only advances when the audio thread leaves CPU free, so with 4 heavy models loading may be slow - please report.
-* `--amp` (**experimental**, needs `--engine extended`): also hijacks the amp class `AmpCab`, so the **82 LEAD 800 Bright** amp block runs a NAM model
-  (Gain / Presence / Master, Bass / Mid / Treble, Depth = model selector, Bright = tight-cut HPF). The MX5 addresses were derived from the MX5 2.7 Evil
-  (vtable `0x15e737c`, process() `0x139538`, slot 7) and the object offsets used by the hook were checked in the disassembly, but the amp model id the hook looks for
-  (27 or 37) and the audio path were only verified on a Gigboard. No amp art / rename is applied. It has never run on an MX5.
+> **Página de la Release**: [v0.9.2](https://github.com/iosumurillo/GIGBOARD_NAM_AMP_PNG/releases/tag/v2.7-nam-extended) 
 
-## Use
+> **Guía técnica y manual de usuario detallado**: [GUIA DE MODULOS](GUIA_MX5_0.9.2.md)
 
-```bash
-pip install -r requirements.txt          # Pillow (GUI needs tkinter, part of the usual Python installers)
-python -m mx5forge                       # graphical interface
-python -m mx5forge --instances 4 --design --rack-art ./my_racks --out ./out     # command line
-python -m mx5forge --instances 2 --no-bridge --input FirmwareUpdater_MX5.zip
-python -m mx5forge --instances 4 --engine extended --amp   # experimental
-```
+---
 
-Then run `FirmwareUpdater.exe` from the output folder (copy it, `libusb-1.0.dll` and `Background.png` from the official
-updater if the tool tells you they are missing) and press the install button.
-Output folder names: `HeadRush_MX5_2.7_NAM<2|4>[_Bridge][_Design]_Updater`.
+## Características Principales
 
-Pedal design with your own rack-module pictures: see `mx5forge/art/rack_art/README.md`.
+- **Doble Bloque NAM en Cadena**:
+  - **Pedal Anxiety OD (NAM)** (y Anxiety OD V2): Inferencia transparente como pedal de saturación/overdrive con controles de Input Trim, Level y selector de modelo.
+- **Gráficos Integrados en Pantalla Táctil**:
+  - Gráficos integrados en los recursos QML/RCC de HeadRush con soporte de NAM PEDAL y arte de la 2da generación para los pedales tipo Rack
+- **MXBRIDGE**:
+  - Herramienta que permite enviar y recibir señales MIDI desde un ordenador hacia la pedalera y viceversa, pilar para el funcionamiento de MXEDIT y posibles integraciones como medidor DSP.
 
-## How it works
+---
 
-`mx5forge/pipeline.py` runs: download/unpack -> verify the FIT image -> open the ext4 rootfs -> **NAM** (`nam/`: redirects the
-Anxiety OD process() vtable slot to a trampoline, installs `libnam_hook.so`/`libnam_preload.so`, edits the launcher script)
--> **design** (`art/`: patches the stock `ActiveStomp.qml` read from the firmware itself, pre-scales the pedal pictures,
-bypasses the precompiled QML unit) -> **MX5 Bridge** (`vendor/mxedit/`) -> verify every written file -> recompress -> rebuild the FIT.
-Everything is checked against what is expected in the MX5 2.7 firmware and refuses to continue otherwise.
-Details: [docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md).
+## Mapeo de Controles
 
-## What has been tested
+### Bloque Pedal: Anxiety OD (NAM)
 
-* The Python NAM patch reproduces, byte for byte, the Evil binary, libraries and scripts of a real 2-instance MX5 image made with the original nam-mod + MX-Edit (that image is known to run on hardware).
-* The complete pipeline was run offline on a stock-equivalent image for 2 instances + Bridge and 4 instances + Bridge + design.
-* The design (QML + images) corresponds to builds that were tested on a real MX5 (chain art, wah modules, pre-scaled pictures).
+| Control | Rango | Función Técnica |
+| :--- | :--- | :--- |
+| **Tone** | 0% – 100% | **Input Trim**: 50% = Ganancia Unitaria (0.0 dB). 0% = Mute, 100% = +12 dB. |
+| **Drive** | 0% – 100% | **Selector de Modelo NAM**: Selecciona el archivo `.nam` correspondiente del pendrive USB (`0%` = Archivo 0, `100%` = Archivo 100). |
+| **Level** | 0% – 100% | **Output Trim**: 50% = Salida Unitaria (0.0 dB). 0% = Mute, 100% = +12 dB. |
+| **On/Off**| Bypass | Paso en seco directo (*dry passthrough*). |
 
-**Not tested:** the online download (needs network access to inMusic), the graphical interface (it needs tkinter, not available where this was written), and the **4-instance hijack of Anxiety OD V2 together with the pedal design on hardware**. Please report results.
+---
 
-## Layout
+## Via de instalacion
+**Instalación Rápida**
+1. Conecta tu HeadRush MX5 mediante USB a la PC mediante.
+2. En la pedalera, entra en **Global Settings -> Firmware Update**.
+3. Ejecuta `Firmware Updater (NAM A2 + BRIDGE + ARTMOD).exe` tras descargarlo de la carpeta /release o descargarlo directamente desde Releases.
+4. Sigue los pasos en pantalla hasta que la pedalera complete el flasheo y reinicie.
 
-```
-mx5forge/            application (cli.py, gui.py, pipeline.py)
-  nam/               NAM hijack: elfpatch.py, launcher.py, blobs/ (nam-mod 0.1.6 build output)
-  art/               pedal design: qmlport.py, images.py, apply.py, manifest_mx5_2.7.json, assets/
-  vendor/mxedit/     MX-Edit firmware tools (MIT): ext4, FIT, xz, 7z, download, MX5 Bridge
-nam_source_extended/ sources of the NAM Extended libraries (GPL)
-nam_source_patch/    sources of libnam_hook / libnam_preload (from nam-mod, GPL)  - to rebuild the blobs
-nam_build_scripts/   build scripts of nam-mod for those blobs
-tests/               python -m unittest discover -s tests      (set MX5_STOCK_EVIL=... for the art tests)
-```
+**Instalación Personalizada**
 
-Licenses and origins: [THIRD_PARTY.md](THIRD_PARTY.md). This project is GPL-3.0 because it contains ported nam-mod code.
+1. Descarga `Headrush MX5 Forge Patcher 0.2.0.exe` o compilalo con `build_windows.bat` (Requieres de Phyton para ello)
+2. Seleccionas que partes de los modulos necesitas, si integras el mod de arte, es necesario descargar el archivo `Rack_pedal.rar`, descomprimirlo en una carpeta y seleccionar la misma dentro del parcheador en la opción "Your rack module art". Caso contrario, los pedales tipo rack como DYNIII Compressor saldran con las graficas originales (cuadros de colores)
+3. Elegir en que directorio se creara la carpeta del nuevo firmware
+4. Presionar `Build Updater`
+5. Realizar lo mismo que la instalación rapida
 
-> `--engine extended-fair`: the Extended hook with its `SCHED_IDLE` / `nice(19)` background-thread priority neutralised (`tools/make_extended_fair.py`).
-> Reported on an MX5: plain `extended` slowed the device and skipped rigs in USB Audio 48 kHz mode; `extended-fair` is the candidate fix (untested).
+---
+## Funciones experimentales (Usar bajo precaución propia)
+_Estas funciones todavía se encuentran en fase de prueba y solo son accesibles mediante `Forge Patcher`, su uso de momento es estrictamente de testeo para integrarlos en actualizaciones futuras y no representan el resultado final de la integración_
 
-> **Bridge and USB audio.** On the tested MX5, the Bridge's USB-MIDI function inside the USB-audio gadget made the device slow down when recording over USB audio at **48 kHz**
-> (about 110,000 USB interrupts per second instead of about 8,000), but not at 44.1 kHz. `--audio-midi auto` (default) therefore adds that function at every rate except 48 kHz and 96 kHz (96 kHz is treated like 48 kHz by request, it has not been measured),
-> `on` always adds it (original Bridge) and `off` never ('lite'). With the function missing, MX-Edit connects only while USB audio is idle. The rate is the first argument of
-> `usb-otg-audio-start.sh`; only 44.1 and 48 kHz have been measured.
+- **NAM EXTENDED**: Modificación de los hilos del modulo NAM y la logica de lectura para mejorar la carga de los archivos y reducir los artefeactos
+  - **Variante (Fair)**: No integra mejoras en los hilos pero si reduce la probabilidad de artefactos al cambiar de NAM al mejorar la logica de lectura.
+- **MXBRIDGE-LIGHT - Integrado en 0.9.3**: Modificación de MXBRIDGE que para el MIDI USB al activar USB-AUDIO a una resolución de 48kHz o 96kHz para evitar perdida de rendimiento y relentización general del sistema
+  - **Variante (Always)**: No integra esta desactivación
+  - **Variante (Only)**: Desactiva el USB-MIDI al activar USB AUDIO sin importar la resolución de muestreo
+- **NAM EXTENDED AMP - MUY EXPERIMENTAL/WIP**: Secuestro del modelo LEAD 800 BRIGHT para integrar controles de EQ y X2AMP con el uso de NAM, no utilizar junto a NAM de 4 instancias, ya que cargar 6 modulos NAM va a sobrecargar el sistema y puede forzar a tener que realizar un reseteo de Fabrica para salir del bucle de crasheo en arranque.
 
-## Windows executable (.exe)
+---
 
-- **Nothing to install:** on GitHub open *Actions* → workflow *build* → *Run workflow*, then download the `mx5forge-windows-latest` artifact (contains `mx5forge.exe`).
-- **On your PC:** install Python 3.9+ (with tcl/tk, "Add to PATH") and double-click `build_windows.bat`; the result is `dist\mx5forge.exe`.
-- Double-clicking the `.exe` opens the GUI where the modules are selected. The official firmware is downloaded by the program itself and is not bundled.
+## Recuperación y Seguridad
+
+El mod preserva la estructura de actualización oficial de HeadRush. Para restaurar el firmware original de fábrica en cualquier momento:
+1. Pon la MX5 en modo actualización de firmware presionando los footswitch 1+2 al prender el equipo.
+2. Ejecuta el actualizador oficial de HeadRush Firmware 2.7.
+3. Restaurar la imagen original del sistema.
+
+---
+
+## Licencia
+
+- El código del mod y los hooks de integración están bajo la licencia [GPL v3](LICENSE).
+- NeuralAmpModelerCore está bajo la licencia [MIT](https://github.com/sdatkinson/NeuralAmpModelerCore/blob/main/LICENSE).
+- Las marcas HeadRush, Gigboard, MX5 y Pedalboard son marcas registradas de inMusic Brands, Inc. Este proyecto es una modificación comunitaria independiente y de código abierto sin afiliación con inMusic Brands.
