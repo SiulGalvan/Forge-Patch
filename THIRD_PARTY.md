@@ -6,10 +6,8 @@
 | NeuralAmpModelerCore inside `libnam_hook.so` | Steven Atkinson et al. | MIT (details in `THIRD_PARTY_LICENSES_nam-mod.md`) |
 | `mx5forge/vendor/mxedit/` (FIT/ext4/xz/7z handling, MX5 Bridge scripts, download) | MX-Edit 0.9.5 firmware tools | MIT (`mx5forge/vendor/mxedit/LICENSE`) |
 | `mx5forge/vendor/mxedit/bin/sqlite3` | SQLite built for the MX5 (ARM) as shipped with MX-Edit | public domain |
-| `mx5forge/art/assets/nam_a2_v1.png`, `nam_badge_v2.png` | NAM pedal pictures taken from the GIGBOARD_NAM_AMP_PNG "nam-extended" project | **check the original author's terms before publishing** |
-| New code (`mx5forge/art/`, `pipeline.py`, `cli.py`, `gui.py`, `fsutil.py`, tests) | this project | GPL-3.0 |
 
-Not included and never to be added: any HeadRush/inMusic firmware, binary, QML or picture. The tool reads them
+Not included and never to be added: any HeadRush/inMusic firmware, binary or QML. The tool reads them
 from the official updater on the user's own computer and patches them there.
 
 ## Additions in 0.2.0
