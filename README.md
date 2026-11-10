@@ -21,7 +21,7 @@ Para instalar el mod en tu pedalera, existen 2 vias de sin necesidad de compilar
 | **Firmware Updater (NAM A2 + BRIDGE + ARTMOD)** | Flasheador automático para HeadRush MX5 ya parchado con soporte Dual NAM + MX-EDIT + ARTMOD | [Descargar .RAR]
 | **Forge Patcher** | Constructor de update.img para parchar modularmente la instalación y elegir que componentes integrar | [Descargar .exe] |
 
-> **Página de la Release**: [v0.9.2](https://github.com/iosumurillo/GIGBOARD_NAM_AMP_PNG/releases/tag/v2.7-nam-extended) 
+> **Página de la Release**: [v0.9.2]
 
 > **Guía técnica y manual de usuario detallado**: [GUIA DE MODULOS](GUIA_MX5_0.9.2.md)
 
