@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+*.img
+Update.img*
+HeadRush_MX5_*_Updater/
+mx5forge/art/rack_art/*.png
+# firmware and vendor files never belong here
+FirmwareUpdater*
